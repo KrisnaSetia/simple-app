@@ -1,0 +1,52 @@
+/* Wrapper untuk halaman */
+.landingPage {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* Tambahkan padding untuk layar kecil */
+}
+
+/* Kartu dengan background dan bayangan */
+.cardBackground {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  height: auto;
+  width: 90%; /* Kurangi lebar untuk layar kecil */
+  max-width: 600px; /* Batasi lebar maksimal */
+  margin: 0 auto;
+}
+
+/* Kolom khusus untuk teks */
+.customCol {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Judul responsif */
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+  .cardBackground {
+    padding: 15px; /* Kurangi padding untuk layar kecil */
+  }
+
+  .title {
+    font-size: 1.25rem; /* Kurangi ukuran font untuk layar kecil */
+    text-align: center; /* Tengah teks pada layar kecil */
+  }
+
+  .customCol {
+    justify-content: center; /* Tengah teks pada layar kecil */
+  }
+}
