@@ -1,6 +1,27 @@
-.customContainer{
-    display: flex; /* Menggunakan Flexbox */
-    justify-content: center; /* Menempatkan secara horizontal di tengah */
-    align-items: center; /* Menempatkan secara vertikal di tengah */
-    padding: 3rem 0 2rem 0;
+/* Row Styling */
+.customRow {
+  display: flex;
+  flex-wrap: wrap; /* Membungkus elemen pada layar kecil */
+  justify-content: center; /* Posisi horizontal */
+  align-items: center; /* Posisi vertikal */
+  padding: 3rem 0 4rem 0;
+  margin: 0 1rem 0 1rem;
+}
+
+/* Column Styling */
+.customCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 576px) {
+  .customRow {
+    padding: 2rem 0; /* Kurangi padding pada layar kecil */
+  }
+  .customCol {
+    margin: 0.5rem; /* Kurangi margin antar elemen */
+  }
 }
