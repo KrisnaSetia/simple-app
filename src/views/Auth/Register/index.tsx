@@ -1,28 +1,71 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import styles from "./Register.module.css";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import logo from "@/../public/assets/telkomsel.png";
 import Form from "react-bootstrap/Form";
+import styles from "./Register.module.css";
+import logo from "@/../public/assets/telkomsel.png";
+
 const RegisterPage = () => {
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
 
+  // Form states
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const validateForm = () => {
+    const usernameRegex = /^[a-zA-Z0-9]{5,12}$/;
+    const emailRegex = /^[^\s@]+@telkomsel\.co\.id$/;
+    if(!username || !email || !password || !confirmPassword) {
+      setErrorMessage("Harap lengkapi data akun anda!");
+      return false;
+    }
+    // Username validation
+    if (!usernameRegex.test(username)) {
+      setErrorMessage("Username hanya boleh berisi huruf dan angka, 5-12 karakter.");
+      return false;
+    }
+    // Email validation
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Harus menggunakan email @telkomsel.co.id.");
+      return false;
+    }
+    // Password validation
+    if (password.length < 8 || password.length > 12) {
+      setErrorMessage("Password harus antara 8 hingga 12 karakter.");
+      return false;
+    }
+    // Confirm Password validation
+    if (password !== confirmPassword) {
+      setErrorMessage("Password dan Confirm Password harus sama.");
+      return false;
+    }
+    setErrorMessage(""); // Reset error message if all validations pass
+    return true;
+  };
+
   const handleClickRegister = () => {
+    if (!validateForm()) {
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       push("/home");
     }, 500);
   };
+
   return (
     <>
       <Head>
@@ -49,57 +92,73 @@ const RegisterPage = () => {
                 Create account for access to all features from this website
               </Card.Text>
               <Form>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Username
-                  </Form.Label>
-                  <Form.Control type="text" placeholder="Enter username" />
+                <Form.Group className="mb-3" controlId="formUsername">
+                  <Form.Label style={{ fontWeight: "bold" }}>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
                 </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Email address
-                  </Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label style={{ fontWeight: "bold" }}>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                   <Form.Text className="text-muted">
-                    Please login with Telkomsel email employee
-                    (...@telkomsel.co.id)
+                    Please login with Telkomsel email employee (...@telkomsel.co.id)
                   </Form.Text>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Password
-                  </Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                <Form.Group className="mb-3" controlId="formPassword">
+                  <Form.Label style={{ fontWeight: "bold" }}>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Confirm Password
-                  </Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                <Form.Group className="mb-3" controlId="formConfirmPassword">
+                  <Form.Label style={{ fontWeight: "bold" }}>Confirm Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
                 </Form.Group>
+                {errorMessage && (
+                  <p className="text-danger" style={{ fontSize: "14px" }}>
+                    {errorMessage}
+                  </p>
+                )}
               </Form>
               <div className="d-grid gap-2">
-                <Button className="mt-2" variant="danger" size="lg" onClick={handleClickRegister} disabled={loading}>
-                {loading ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    {" Loading..."}
-                  </>
-                ) : (
-                  "Register"
-                )}
+                <Button
+                  className="mt-2"
+                  variant="danger"
+                  size="lg"
+                  onClick={handleClickRegister}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      {" Loading..."}
+                    </>
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
               </div>
             </Card.Body>
@@ -109,4 +168,5 @@ const RegisterPage = () => {
     </>
   );
 };
+
 export default RegisterPage;

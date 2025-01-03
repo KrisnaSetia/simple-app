@@ -44,6 +44,10 @@ const LoginPage = () => {
   const validateForm = () => {
     // Email validation
     const telkomselEmailRegex = /^[^\s@]+@telkomsel\.co\.id$/;
+    if(!email && !password) {
+      setErrorMessage("Harap isi email dan password anda")
+      return false;
+    }
     if (!telkomselEmailRegex.test(email)) {
       setErrorMessage("Harus menggunakan email @telkomsel.co.id");
       return false;
