@@ -14,14 +14,22 @@ import logo from "@/../public/assets/telkomsel.png";
 import Form from "react-bootstrap/Form";
 const LoginPage = () => {
     const { push } = useRouter();
-    const [loading, setLoading] = useState(false);
-
+    const [loadingLogin, setLoadingLogin] = useState(false);
+    const [loadingRegister, setLoadingRegister] = useState(false);
+    
     const handleClickRegister =()=>{
-      setLoading(true);
+      setLoadingRegister(true);
       setTimeout(() => {
-        setLoading(false);
+        setLoadingRegister(false);
         push("/auth/register");
       },700);
+    };
+    const handleClickLogin =()=>{
+      setLoadingLogin(true);
+      setTimeout(() => {
+        setLoadingLogin(false);
+        push("/home");
+      },1000);
     };
   return (
     <>
@@ -69,8 +77,21 @@ const LoginPage = () => {
                 </Form.Group>
               </Form>
               <div className="d-grid gap-2">
-                <Button variant="danger" size="lg">
-                  Login
+                <Button variant="danger" size="lg" onClick={handleClickLogin} disabled={loadingLogin}>
+                {loadingLogin ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    {" Loading..."}
+                  </>
+                ) : (
+                  "Login"
+                )}
                 </Button>
               </div>
               <div className="d-flex justify-content-center align-items-center mt-2 mb-2">
@@ -79,8 +100,8 @@ const LoginPage = () => {
                 </Card.Text>
               </div>
               <div className="d-grid gap-2">
-                <Button variant="outline-dark" size="lg" onClick={handleClickRegister} disabled={loading}>
-                {loading ? (
+                <Button variant="outline-dark" size="lg" onClick={handleClickRegister} disabled={loadingRegister}>
+                {loadingRegister ? (
                   <>
                     <Spinner
                       as="span"

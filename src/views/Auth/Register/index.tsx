@@ -20,7 +20,7 @@ const RegisterPage = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      push("/auth/register");
+      push("/home");
     }, 500);
   };
   return (
@@ -85,8 +85,21 @@ const RegisterPage = () => {
                 </Form.Group>
               </Form>
               <div className="d-grid gap-2">
-                <Button variant="danger" size="lg">
-                  Register
+                <Button className="mt-2" variant="danger" size="lg" onClick={handleClickRegister} disabled={loading}>
+                {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    {" Loading..."}
+                  </>
+                ) : (
+                  "Register"
+                )}
                 </Button>
               </div>
             </Card.Body>
