@@ -1,0 +1,6 @@
+.customContainer{
+    display: flex; /* Menggunakan Flexbox */
+    justify-content: center; /* Menempatkan secara horizontal di tengah */
+    align-items: center; /* Menempatkan secara vertikal di tengah */
+    padding: 3rem 0 2rem 0;
+}
