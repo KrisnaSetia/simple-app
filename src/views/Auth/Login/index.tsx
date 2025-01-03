@@ -1,36 +1,64 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import styles from "./Login.module.css";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import logo from "@/../public/assets/telkomsel.png";
 import Form from "react-bootstrap/Form";
+import styles from "./Login.module.css";
+import logo from "@/../public/assets/telkomsel.png";
+
 const LoginPage = () => {
-    const { push } = useRouter();
-    const [loadingLogin, setLoadingLogin] = useState(false);
-    const [loadingRegister, setLoadingRegister] = useState(false);
-    
-    const handleClickRegister =()=>{
-      setLoadingRegister(true);
-      setTimeout(() => {
-        setLoadingRegister(false);
-        push("/auth/register");
-      },700);
-    };
-    const handleClickLogin =()=>{
-      setLoadingLogin(true);
-      setTimeout(() => {
-        setLoadingLogin(false);
-        push("/home");
-      },1000);
-    };
+  const { push } = useRouter();
+  const [loadingLogin, setLoadingLogin] = useState(false);
+  const [loadingRegister, setLoadingRegister] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleClickRegister = () => {
+    setLoadingRegister(true);
+    setTimeout(() => {
+      setLoadingRegister(false);
+      push("/auth/register");
+    }, 700);
+  };
+
+  const handleClickLogin = () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoadingLogin(true);
+    setTimeout(() => {
+      setLoadingLogin(false);
+      push("/home");
+    }, 1000);
+  };
+
+  const validateForm = () => {
+    // Email validation
+    const telkomselEmailRegex = /^[^\s@]+@telkomsel\.co\.id$/;
+    if (!telkomselEmailRegex.test(email)) {
+      setErrorMessage("Harus menggunakan email @telkomsel.co.id");
+      return false;
+    }
+
+    // Password validation
+    if (password.length < 8 || password.length > 12) {
+      setErrorMessage("Password harus antara 8 hingga 12 karakter.");
+      return false;
+    }
+
+    setErrorMessage(""); // Reset error message if validation passes
+    return true;
+  };
+
   return (
     <>
       <Head>
@@ -57,64 +85,83 @@ const LoginPage = () => {
                 Log in to get access data and dashboard Telkomsel Indonesia!
               </Card.Text>
               <Form>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Email address
-                  </Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label style={{ fontWeight: "bold" }}>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                   <Form.Text className="text-muted">
                     Please login with Telkomsel email employee (...@telkomsel.co.id)
                   </Form.Text>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Password
-                  </Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                <Form.Group className="mb-3" controlId="formPassword">
+                  <Form.Label style={{ fontWeight: "bold" }}>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                  <Form.Check type="checkbox" label="Remember Me" />
-                </Form.Group>
-              </Form>
-              <div className="d-grid gap-2">
-                <Button variant="danger" size="lg" onClick={handleClickLogin} disabled={loadingLogin}>
-                {loadingLogin ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    {" Loading..."}
-                  </>
-                ) : (
-                  "Login"
+                {errorMessage && (
+                  <p className="text-danger" style={{ fontSize: "14px" }}>
+                    {errorMessage}
+                  </p>
                 )}
+              </Form>
+          
+              <div className="d-grid gap-2">
+                <Button
+                  variant="danger"
+                  size="lg"
+                  onClick={handleClickLogin}
+                  disabled={loadingLogin}
+                >
+                  {loadingLogin ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      {" Loading..."}
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
               </div>
               <div className="d-flex justify-content-center align-items-center mt-2 mb-2">
                 <Card.Text style={{ fontSize: "14px" }}>
-                Don&apos;t have an account?
+                  Don&apos;t have an account?
                 </Card.Text>
               </div>
               <div className="d-grid gap-2">
-                <Button variant="outline-dark" size="lg" onClick={handleClickRegister} disabled={loadingRegister}>
-                {loadingRegister ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    {" Loading..."}
-                  </>
-                ) : (
-                  "Register Account"
-                )}
+                <Button
+                  variant="outline-dark"
+                  size="lg"
+                  onClick={handleClickRegister}
+                  disabled={loadingRegister}
+                >
+                  {loadingRegister ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      {" Loading..."}
+                    </>
+                  ) : (
+                    "Register Account"
+                  )}
                 </Button>
               </div>
             </Card.Body>
@@ -124,4 +171,7 @@ const LoginPage = () => {
     </>
   );
 };
+
 export default LoginPage;
+
+
