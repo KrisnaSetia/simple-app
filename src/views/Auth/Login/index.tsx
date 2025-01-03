@@ -1,5 +1,5 @@
 import React from "react";
-// import { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -7,14 +7,22 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./Login.module.css";
 import Card from "react-bootstrap/Card";
-// import Spinner from "react-bootstrap/Spinner";
-// import { useRouter } from "next/router";
+import Spinner from "react-bootstrap/Spinner";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import logo from "@/../public/assets/telkomsel.png";
 import Form from "react-bootstrap/Form";
 const LoginPage = () => {
-    // const { push } = useRouter();
-    // const [loading, setLoading] = useState(false);
+    const { push } = useRouter();
+    const [loading, setLoading] = useState(false);
+
+    const handleClickRegister =()=>{
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        push("/auth/register");
+      },700);
+    };
   return (
     <>
       <Head>
@@ -71,8 +79,21 @@ const LoginPage = () => {
                 </Card.Text>
               </div>
               <div className="d-grid gap-2">
-                <Button variant="outline-dark" size="lg">
-                  Register Account
+                <Button variant="outline-dark" size="lg" onClick={handleClickRegister} disabled={loading}>
+                {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    {" Loading..."}
+                  </>
+                ) : (
+                  "Register Account"
+                )}
                 </Button>
               </div>
             </Card.Body>
