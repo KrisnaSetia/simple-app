@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import { useState } from "react";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -8,7 +10,33 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Image from "next/image";
 import logo from "@/../public/assets/telkomsel.png";
 import style from "@/components/Navbar/Navbar.module.css";
+import Modal from "react-bootstrap/Modal";
+import Spinner from "react-bootstrap/Spinner";
+
 function NavScrollExample() {
+  const { push } = useRouter();
+  const [loadingLogout, setLoadingLogout] = useState(false);
+  const [loadingAccount, setLoadingAccount] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
+  const handleCloseLogut = () => setShowLogout(false);
+  const handleShowLogout = () => setShowLogout(true);
+  const handleCloseAccount = () => setShowAccount(false);
+  const handleShowAccount = () => setShowAccount(true);
+  const handleClickLogout = () => {
+    setLoadingLogout(true);
+    setTimeout(() => {
+      setLoadingLogout(false);
+      push("/");
+    }, 1000);
+  };
+  const handleClickAccount = () => {
+    setLoadingAccount(true);
+    setTimeout(() => {
+      setLoadingAccount(false);
+      push("/auth/login");
+    }, 1000);
+  };
   return (
     <>
       <Navbar expand="lg" className={style.navbar}>
@@ -30,13 +58,15 @@ function NavScrollExample() {
               <NavDropdown title="Statistics" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Profit</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Payload</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Other
-                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Other</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/4.1">Change Account</NavDropdown.Item>
-                <NavDropdown.Item href="#action/4.2">Log Out</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleShowAccount}>
+                  Change Account
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleShowLogout}>
+                  Log Out
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Form className="d-flex">
@@ -51,6 +81,68 @@ function NavScrollExample() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Modal show={showAccount} onHide={handleCloseAccount}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change Account Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to change your account ?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseAccount}>
+            Close
+          </Button>
+          <Button
+            variant="danger"
+            onClick={handleClickAccount}
+            disabled={loadingAccount}
+          >
+            {loadingAccount ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                {" Loading..."}
+              </>
+            ) : (
+              "Yes"
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showLogout} onHide={handleCloseLogut}>
+        <Modal.Header closeButton>
+          <Modal.Title>Log out Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to log out?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseLogut}>
+            Close
+          </Button>
+          <Button
+            variant="danger"
+            onClick={handleClickLogout}
+            disabled={loadingLogout}
+          >
+            {loadingLogout ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                {" Loading..."}
+              </>
+            ) : (
+              "Yes"
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
