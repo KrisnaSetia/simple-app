@@ -17,3 +17,7 @@
     border: none; /* Hapus border jika tidak diperlukan */
     margin-left: 2.5rem;
 }
+.cardBackground:hover {
+    box-shadow: 5px 2px 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.5s ease-in-out;
+  }

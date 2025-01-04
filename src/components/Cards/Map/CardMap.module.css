@@ -10,3 +10,8 @@
     height: auto; /* Mempertahankan rasio aspek gambar */
     overflow: hidden; /* Menghindari gambar melampaui batas */
   }
+
+.cardBackground:hover {
+    box-shadow: 5px 2px 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.5s ease-in-out;
+  }
