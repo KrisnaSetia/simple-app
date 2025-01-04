@@ -13,7 +13,7 @@ function NavScrollExample() {
     <>
       <Navbar expand="lg" className={style.navbar}>
         <Container fluid>
-          <Navbar.Brand href="#">
+          <Navbar.Brand href="/home">
             <Image src={logo} alt="logo" className={style.logo} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -24,9 +24,9 @@ function NavScrollExample() {
               navbarScroll
             >
               <strong>
-                <Nav.Link href="#action1">Dashboard</Nav.Link>
+                <Nav.Link href="/home">Dashboard</Nav.Link>
               </strong>
-              <Nav.Link href="#action2">BTS Map</Nav.Link>
+              <Nav.Link href="/map">BTS Map</Nav.Link>
               <NavDropdown title="Statistics" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Profit</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Payload</NavDropdown.Item>
