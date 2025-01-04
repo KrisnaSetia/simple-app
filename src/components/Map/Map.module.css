@@ -1,0 +1,32 @@
+.leafletContainer {
+  height: calc(100vh - 86px); /* Kurangi tinggi navbar */
+  width: 100%; /* Penuh horizontal */
+  position: relative;
+}
+.clusterIcon {
+    height: 3rem !important;
+    width: 3rem !important;
+    border-radius: 50% !important;
+    background-color: rgb(223, 25, 25) !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-weight: 900 !important;
+    font-size: 1.5em !important;
+    color: #fff !important;
+    box-shadow: 0 0 0px 6px #ffffff !important;
+  }
+  
+
+@media (max-width: 768px) {
+  .leafletContainer {
+    height: calc(100vh - 86px); /* Pastikan konsisten di layar kecil */
+  }
+}
+
+@media (max-width: 576px) {
+  .leafletContainer {
+    height: calc(100vh - 86px); /* Tidak mengubah logika, tetap responsif */
+  }
+}

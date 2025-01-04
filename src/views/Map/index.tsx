@@ -1,3 +1,4 @@
+import LeafletMap from "@/components/Map";
 import Head from "next/head";
 
 export default function MapPage() {
@@ -9,6 +10,7 @@ export default function MapPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/telkomsel.svg" />
       </Head>
+      <LeafletMap />
     </>
   );
 }
