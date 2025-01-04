@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Head from "next/head";
 
 export default function MapPage() {
@@ -10,7 +9,6 @@ export default function MapPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/telkomsel.svg" />
       </Head>
-      <Navbar />
     </>
   );
 }

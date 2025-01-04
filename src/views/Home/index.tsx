@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Navbar from "@/components/Navbar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -18,7 +17,6 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/telkomsel.svg" />
       </Head>
-      <Navbar />
       <Container fluid>
         <Row className={style.customRow}>
           <CardMap />
