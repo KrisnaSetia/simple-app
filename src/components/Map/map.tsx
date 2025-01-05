@@ -54,7 +54,21 @@ const MapPage = () => {
         iconCreateFunction={createClusterCustomIcon}
       >
         {markers.map((marker, index) => (
-          <Marker key={index} position={marker.geocode} icon={customIcon}>
+          <Marker
+            key={index}
+            position={marker.geocode}
+            icon={customIcon}
+            eventHandlers={{
+              mouseover: (e) => {
+                const marker = e.target;
+                setTimeout(() => marker.openPopup(), 100); // Tambahkan sedikit delay
+              },
+              mouseout: (e) => {
+                const marker = e.target;
+                setTimeout(() => marker.closePopup(), 100); // Tambahkan sedikit delay
+              },
+            }}
+          >
             <Popup>{marker.popUp}</Popup>
           </Marker>
         ))}
