@@ -56,7 +56,7 @@ function NavScrollExample() {
               </strong>
               <NavDropdown title="Level Report" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/map/sitemap">Site</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.1">City</NavDropdown.Item>
+                <NavDropdown.Item href="/map/citymap">City</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Regional</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
