@@ -1,0 +1,16 @@
+.leafletContainer {
+  height: calc(100vh - 86px); /* Kurangi tinggi navbar */
+  width: 100%; /* Penuh horizontal */
+  position: relative;
+}
+@media (max-width: 768px) {
+  .leafletContainer {
+    height: calc(100vh - 86px); /* Pastikan konsisten di layar kecil */
+  }
+}
+
+@media (max-width: 576px) {
+  .leafletContainer {
+    height: calc(100vh - 86px); /* Tidak mengubah logika, tetap responsif */
+  }
+}

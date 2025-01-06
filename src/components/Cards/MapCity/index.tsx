@@ -15,7 +15,7 @@ const cardMap = () => {
     setLoading(true); // Aktifkan spinner
     setTimeout(() => {
       setLoading(false); // Matikan spinner (opsional jika navigasi cepat)
-      push("/home"); // Navigasi ke halaman login
+      push("/map/citymap"); // Navigasi ke halaman login
     }, 2000); // Simulasi loading 2 detik
   };
   return (
