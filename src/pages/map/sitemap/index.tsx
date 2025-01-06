@@ -1,4 +1,4 @@
-import MapPage from "@/views/Map";
+import MapPage from "@/views/Map/SiteMap";
 
 const Map = () => {
     return <MapPage />;

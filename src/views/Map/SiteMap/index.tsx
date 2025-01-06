@@ -1,4 +1,4 @@
-import LeafletMap from "@/components/Map";
+import LeafletMap from "@/components/Map/SiteMap";
 import Head from "next/head";
 
 export default function MapPage() {

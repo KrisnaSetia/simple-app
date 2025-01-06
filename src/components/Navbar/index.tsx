@@ -55,7 +55,7 @@ function NavScrollExample() {
                 <Nav.Link href="/home">Main Dashboard</Nav.Link>
               </strong>
               <NavDropdown title="Level Report" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/map">Site</NavDropdown.Item>
+                <NavDropdown.Item href="/map/sitemap">Site</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.1">City</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Regional</NavDropdown.Item>
               </NavDropdown>
