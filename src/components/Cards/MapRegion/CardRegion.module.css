@@ -1,17 +1,18 @@
 .cardBackground {
-        background-color: #ffff;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        width: 60rem;
-        height: auto;
-        
-    }
-.imageWrapper {
+    background-color: #ffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 25rem;
+    height: auto;
+  }
+  .imageWrapper {
+    padding-top: 1rem;
     width: 100%; /* Mengatur lebar agar menyesuaikan kartu */
     height: auto; /* Mempertahankan rasio aspek gambar */
     overflow: hidden; /* Menghindari gambar melampaui batas */
   }
-
-.cardBackground:hover {
+  
+  .cardBackground:hover {
     box-shadow: 5px 2px 20px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.5s ease-in-out;
   }
+  

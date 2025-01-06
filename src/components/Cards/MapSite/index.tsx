@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import style from "./CardMap.module.css";
+import style from "./CardSite.module.css";
 import Image from "next/image";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -26,12 +26,10 @@ const cardMap = () => {
         </div>
         <Card.Body>
           <Card.Title style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
-            Base Transceiver Station (BTS) Map
+            Site Level
           </Card.Title>
           <Card.Text>
-            Base Transceiver Station (BTS) Map is a map of the base transceiver
-            station (BTS) in Indonesia. Let&apos;s access this map and find out
-            the location of the BTS in your area.
+            This report will visualize and summarize data BTS Telkomsel tower based on Site level in Jawa & Bali Island.
           </Card.Text>
           <Button variant="danger" onClick={handleMapClick} disabled={loading}>
           {loading ? (

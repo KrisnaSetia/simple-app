@@ -52,13 +52,12 @@ function NavScrollExample() {
               navbarScroll
             >
               <strong>
-                <Nav.Link href="/home">Dashboard</Nav.Link>
+                <Nav.Link href="/home">Main Dashboard</Nav.Link>
               </strong>
-              <Nav.Link href="/map">BTS Map</Nav.Link>
-              <NavDropdown title="Statistics" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Profit</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Payload</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Other</NavDropdown.Item>
+              <NavDropdown title="Level Report" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/map">Site</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.1">City</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Regional</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={handleShowAccount}>

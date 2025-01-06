@@ -3,10 +3,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import style from "./HomePage.module.css";
-import CardMap from "@/components/Cards/Map";
-import CardPayload from "@/components/Cards/Payload";
-import CardProfit from "@/components/Cards/Profit";
-import CardLatency from "@/components/Cards/Latency";
+import CardMap from "@/components/Cards/MapSite";
+import CardRegion from "@/components/Cards/MapRegion";
+import CardCity from "@/components/Cards/MapCity";
 
 export default function HomePage() {
   return (
@@ -19,17 +18,14 @@ export default function HomePage() {
       </Head>
       <Container fluid>
         <Row className={style.customRow}>
-          <CardMap />
-        </Row>
-        <Row className={style.customRow}>
           <Col sm className={style.customCol}>
-            <CardPayload />
+            <CardMap />
           </Col>
           <Col sm className={style.customCol}>
-            <CardProfit />
+            <CardCity />
           </Col>
           <Col sm className={style.customCol}>
-            <CardLatency />
+            <CardRegion />
           </Col>
         </Row>
       </Container>
