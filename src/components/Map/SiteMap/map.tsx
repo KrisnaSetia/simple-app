@@ -5,42 +5,12 @@ import { useEffect, useState } from "react";
 import { Icon, divIcon, point } from "leaflet";
 import { Offcanvas } from "react-bootstrap";
 import markerBronze from "@/../public/assets/marker/marker-bronze.png";
-import markerDiamond from "@/../public/assets/marker/marker-diamond.png";
-import markerGold from "@/../public/assets/marker/marker-gold.png";
-import markerPlatinum from "@/../public/assets/marker/marker-platinum.png";
-import markerSilver from "@/../public/assets/marker/marker-silver.png";
 import style from "./Map.module.css";
 
-// Fungsi untuk memilih ikon berdasarkan siteClass
-const getCustomIcon = (siteClass: string): Icon => {
-  let iconUrl;
-
-  switch (siteClass.toLowerCase()) {
-    case "gold":
-      iconUrl = markerGold.src;
-      break;
-    case "bronze":
-      iconUrl = markerBronze.src;
-      break;
-    case "silver":
-      iconUrl = markerSilver.src;
-      break;
-    case "platinum":
-      iconUrl = markerPlatinum.src;
-      break;
-    case "diamond":
-      iconUrl = markerDiamond.src;
-      break;
-    default:
-      iconUrl = markerBronze.src; // Default marker jika tidak ada kecocokan
-      break;
-  }
-
-  return new Icon({
-    iconUrl,
-    iconSize: [30, 45],
-  });
-};
+const customIcon = new Icon({
+  iconUrl: markerBronze.src,
+  iconSize: [30, 45], // Ukuran ikon
+});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createClusterCustomIcon = (cluster: any) => {
@@ -52,12 +22,9 @@ const createClusterCustomIcon = (cluster: any) => {
 };
 
 interface BTSData {
-  siteID: string;
+  site_id: string;
   latitude: number;
   longitude: number;
-  regional: string;
-  kabupaten: string;
-  siteClass: string;
 }
 
 const MapPage = () => {
@@ -68,7 +35,7 @@ const MapPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/map");
+        const res = await fetch("/api/map/site");
         const data: BTSData[] = await res.json();
         setBtsData(data);
       } catch (err) {
@@ -87,8 +54,8 @@ const MapPage = () => {
   return (
     <>
       <MapContainer
-        center={[-7.384258, 110.70186]} // Ganti dengan koordinat pusat area Anda
-        zoom={7}
+        center={[-7.863382, 114.757731]} // Ganti dengan koordinat pusat area Anda
+        zoom={6}
         scrollWheelZoom={true}
         className={style.leafletContainer}
       >
@@ -104,13 +71,16 @@ const MapPage = () => {
             <Marker
               key={index}
               position={[bts.latitude, bts.longitude]}
-              icon={getCustomIcon(bts.siteClass)} // Gunakan ikon berdasarkan siteClass
+              icon={customIcon}
               eventHandlers={{
                 mouseover: (e) => {
                   const marker = e.target;
                   setTimeout(() => marker.openPopup(), 100); // Tambahkan sedikit delay
                 },
-                
+                mouseout: (e) => {
+                  const marker = e.target;
+                  setTimeout(() => marker.closePopup(), 100); // Tambahkan sedikit delay
+                },
                 click: () => handleMarkerClick(bts),
               }}
             >
@@ -118,19 +88,16 @@ const MapPage = () => {
                 <h6>
                   <strong>
                     Site ID:{" "}
-                    {bts.siteID.length > 10
-                      ? `${bts.siteID.slice(0, 10)}...`
-                      : bts.siteID}
+                    {bts.site_id.length > 10
+                      ? `${bts.site_id.slice(0, 10)}...`
+                      : bts.site_id}
                   </strong>
                 </h6>
                 <p>
-                  <strong>Regional</strong> : {bts.regional}
+                  <strong>Latitude</strong>: {bts.latitude}
                 </p>
                 <p>
-                  <strong>Kabupaten</strong> : {bts.kabupaten}
-                </p>
-                <p>
-                  <strong>Site Class</strong> : {bts.siteClass}
+                  <strong>Longitude</strong>: {bts.longitude}
                 </p>
               </Popup>
             </Marker>
@@ -145,24 +112,25 @@ const MapPage = () => {
         backdrop={false}
       >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title><h4>Detail BTS Tower</h4></Offcanvas.Title>
+          <Offcanvas.Title>
+            <h4>Detail BTS Tower</h4>
+          </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          {selectedBTS && (
+          {selectedBTS ? (
             <div>
               <p>
-                <strong>Site ID:</strong> {selectedBTS.siteID}
+                <strong>Site ID:</strong> {selectedBTS.site_id}
               </p>
               <p>
-                <strong>Regional:</strong> {selectedBTS.regional}
+                <strong>Latitude:</strong> {selectedBTS.latitude}
               </p>
               <p>
-                <strong>Kabupaten:</strong> {selectedBTS.kabupaten}
-              </p>
-              <p>
-                <strong>Site Class:</strong> {selectedBTS.siteClass}
+                <strong>Longitude:</strong> {selectedBTS.longitude}
               </p>
             </div>
+          ) : (
+            <p>Tidak ada data BTS yang dipilih.</p>
           )}
         </Offcanvas.Body>
       </Offcanvas>
@@ -171,3 +139,43 @@ const MapPage = () => {
 };
 
 export default MapPage;
+
+
+
+
+
+// import markerDiamond from "@/../public/assets/marker/marker-diamond.png";
+// import markerGold from "@/../public/assets/marker/marker-gold.png";
+// import markerPlatinum from "@/../public/assets/marker/marker-platinum.png";
+// import markerSilver from "@/../public/assets/marker/marker-silver.png";
+
+// Fungsi untuk memilih ikon berdasarkan siteClass
+// const getCustomIcon = (siteClass: string): Icon => {
+//   let iconUrl;
+
+//   switch (siteClass.toLowerCase()) {
+//     case "gold":
+//       iconUrl = markerGold.src;
+//       break;
+//     case "bronze":
+//       iconUrl = markerBronze.src;
+//       break;
+//     case "silver":
+//       iconUrl = markerSilver.src;
+//       break;
+//     case "platinum":
+//       iconUrl = markerPlatinum.src;
+//       break;
+//     case "diamond":
+//       iconUrl = markerDiamond.src;
+//       break;
+//     default:
+//       iconUrl = markerBronze.src; // Default marker jika tidak ada kecocokan
+//       break;
+//   }
+
+//   return new Icon({
+//     iconUrl,
+//     iconSize: [30, 45],
+//   });
+// };
