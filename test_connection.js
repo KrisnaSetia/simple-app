@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-require("dotenv").config(); // Memuat file .env
-const mysql = require("mysql");
+import dotenv from "dotenv";
+import mysql from "mysql";
 
-// Konfigurasi database menggunakan environment variables
+dotenv.config();
+// Menghubungkan ke database
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
 });
 
 // Menghubungkan ke database
 db.connect((err) => {
   if (err) {
     console.log("Connecting with:", {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME
+      host: process.env.DATABASE_HOST,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME
   });
   
     console.error("Error connecting to the database:", err);
