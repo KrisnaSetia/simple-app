@@ -6,18 +6,21 @@ export default async function getAllSites(
   res: NextApiResponse
 ) {
   try {
+    if (req.method !== "GET") {
+      return res.status(405).json({ error: "Method not allowed" });
+    }
     // Menghubungkan ke database
     const db = await connectDatabase();
     // Query ke database
     db.query(
-      "SELECT site_id, longitude, latitude from location_bts_2 ",
+      "SELECT site_id, longitude, latitude from location_bts_2",
       (err, results) => {
         if (err) {
           console.error("Error executing query:", err);
           return res.status(500).json({ error: "Failed to fetch site location" });
         }
         // Kirim hasil query sebagai response
-        res.status(200).json(results);
+        return res.status(200).json(results);
       }
     );
   } catch (err) {
