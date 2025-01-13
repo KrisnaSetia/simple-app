@@ -82,14 +82,15 @@ const MapPage: React.FC<SiteMapInfo> = ({handleShow}) => {
             }}
           >
             <Popup>
-              <h6>
+              <p><strong>Site ID: </strong>{bts.site_id}</p>
+              {/* <h6>
                 <strong>
                   Site ID:{" "}
                   {bts.site_id.length > 10
                     ? `${bts.site_id.slice(0, 10)}...`
                     : bts.site_id}
                 </strong>
-              </h6>
+              </h6> */}
               <p>
                 <strong>Latitude</strong>: {bts.latitude}
               </p>

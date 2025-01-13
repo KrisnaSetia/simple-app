@@ -17,7 +17,9 @@ export default async function getAllSites(
       (err, results) => {
         if (err) {
           console.error("Error executing query:", err);
-          return res.status(500).json({ error: "Failed to fetch site location" });
+          return res
+            .status(500)
+            .json({ error: "Failed to fetch site location" });
         }
         // Kirim hasil query sebagai response
         return res.status(200).json(results);

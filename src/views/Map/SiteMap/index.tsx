@@ -1,44 +1,49 @@
 import LeafletMap from "@/components/Map/SiteMap";
 import InfoMap from "@/components/Offcanvas/SiteMap";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 
 export default function MapPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [chartData, setChartData] = useState<
     {
-      site_id: string;
       trx_date: string;
-      latitude: number;
-      longitude: number;
       total_rev: number;
       total_payload: number;
-      total_profit: number;
+      total_traffic: number;
     }[]
   >([]);
 
   const handleShow = async (site_id: string) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/site/${site_id}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch site data");
+      const response = await fetch(`/api/siteperformance/${site_id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setChartData(data.performance || []); // Pastikan key `performance` di API mengandung data chart
+      } else {
+        console.error("Failed to fetch site performance data");
+        setChartData([]);
       }
-      const data = await res.json();
-      setChartData(data);
       setShow(true);
+      router.push(`/map/sitemap?${site_id}`);
     } catch (err) {
-      console.error("Error fetching chart data:", err);
+      console.error("Error fetching data:", err);
+      setChartData([]);
     } finally {
       setLoading(false);
     }
   };
+
   const handleClose = () => {
     setShow(false);
     setChartData([]);
-    setLoading(true);
+    router.push("/map/sitemap");
   };
+
   return (
     <>
       <Head>
@@ -47,15 +52,13 @@ export default function MapPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/telkomsel.svg" />
       </Head>
-      <LeafletMap
-      handleShow={handleShow}
-       />
-       <InfoMap
-       show={show}
-       btsData = {chartData}
-       handleClose={handleClose}
-       loading={loading}
-       />
+      <LeafletMap handleShow={handleShow} />
+      <InfoMap
+        show={show}
+        chartData={chartData}
+        handleClose={handleClose}
+        loading={loading}
+      />
     </>
   );
 }
