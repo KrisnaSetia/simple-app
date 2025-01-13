@@ -18,14 +18,68 @@
   box-shadow: 0 0 0px 6px #ffffff !important;
 }
 
+/* General Info Styles */
+.generalInfoContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: white;
+  padding: 2%;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 21%;
+  min-width: 250px;
+  max-width: 400px;
+  font-size: clamp(12px, 1vw, 16px);
+}
+
+.generalInfoTitle {
+  margin: 0 0 10px 0;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: bold;
+  border-bottom: 2px solid #030d40;
+  padding-bottom: 5px;
+}
+
+.generalInfoContent {
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+.generalInfoItem {
+  margin: 5px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.generalInfoLabel {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.generalInfoValue {
+  text-align: left;
+}
+
+
 @media (max-width: 768px) {
   .leafletContainer {
     height: calc(100vh - 86px); /* Pastikan konsisten di layar kecil */
+  }
+  .generalInfoContainer {
+    width: 25%;
+    min-width: 250px;
+    max-width: 400px;
   }
 }
 
 @media (max-width: 576px) {
   .leafletContainer {
     height: calc(100vh - 86px); /* Tidak mengubah logika, tetap responsif */
+  }
+  .generalInfoContainer {
+    width: 25%;
+    min-width: 250px;
+    max-width: 400px;
   }
 }

@@ -31,11 +31,11 @@ interface BTSData {
   total_payload: number;
 }
 
-interface SiteMapInfo{
-  handleShow:(site_id : string)=> void;
+interface SiteMapInfo {
+  handleShow: (site_id: string) => void;
 }
 
-const MapPage: React.FC<SiteMapInfo> = ({handleShow}) => {
+const MapPage: React.FC<SiteMapInfo> = ({ handleShow }) => {
   const [btsData, setBtsData] = useState<BTSData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -47,7 +47,7 @@ const MapPage: React.FC<SiteMapInfo> = ({handleShow}) => {
         setBtsData(data);
       } catch (err) {
         console.error("Failed to fetch BTS data:", err);
-      } finally{
+      } finally {
         setIsLoading(false);
       }
     };
@@ -55,54 +55,89 @@ const MapPage: React.FC<SiteMapInfo> = ({handleShow}) => {
     fetchData();
   }, []);
 
+  const GeneralInfo = () => {
+    const totalSite = new Intl.NumberFormat("id-ID", {
+      maximumFractionDigits: 2,
+    }).format(btsData.length);
+    return (
+      <div className={style.generalInfoContainer}>
+        <h6 className={style.generalInfoTitle}>Site Map Information</h6>
+        <div className={style.generalInfoContent}>
+          <div className={style.generalInfoItem}>
+            <span className={style.generalInfoLabel}>Region: </span>
+            <span className={style.generalInfoValue}>
+              JATIM - JATENG - BALI NUSRA
+            </span>
+          </div>
+          <div className={style.generalInfoItem}>
+            <span className={style.generalInfoLabel}>Total Site: </span>
+            <span className={style.generalInfoValue}>{totalSite} site</span>
+          </div>
+          <div className={style.generalInfoItem}>
+            <span className={style.generalInfoLabel}>Periode:</span>
+            <span className={style.generalInfoValue}>
+              Oktober - Desember 2024
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (isLoading) {
     return <LoadingScreen />;
   }
   return (
-    <MapContainer
-      center={[-7.863382, 114.757731]} // Ganti dengan koordinat pusat area Anda
-      zoom={6}
-      scrollWheelZoom={true}
-      className={style.leafletContainer}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <MarkerClusterGroup
-        chunkedLoading
-        iconCreateFunction={createClusterCustomIcon}
+    <div style={{ position: "relative" }}>
+      <GeneralInfo />
+      <MapContainer
+        center={[-7.863382, 114.757731]} // Ganti dengan koordinat pusat area Anda
+        zoom={6}
+        scrollWheelZoom={true}
+        className={style.leafletContainer}
       >
-        {btsData.map((bts, index) => (
-          <Marker
-            key={index}
-            position={[bts.latitude, bts.longitude]}
-            icon={customIcon}
-            eventHandlers={{
-              mouseover: (e) => {
-                const marker = e.target;
-                setTimeout(() => marker.openPopup(), 100); // Tambahkan sedikit delay
-              },
-              mouseout: (e) => {
-                const marker = e.target;
-                setTimeout(() => marker.closePopup(), 100); // Tambahkan sedikit delay
-              },
-              click: () => handleShow(bts.site_id),
-            }}
-          >
-            <Popup>
-              <p><strong>Site ID: </strong>{bts.site_id}</p>
-              <p>
-                <strong>Latitude</strong>: {bts.latitude}
-              </p>
-              <p>
-                <strong>Longitude</strong>: {bts.longitude}
-              </p>
-            </Popup>
-          </Marker>
-        ))}
-      </MarkerClusterGroup>
-    </MapContainer>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <MarkerClusterGroup
+          chunkedLoading
+          iconCreateFunction={createClusterCustomIcon}
+        >
+          {btsData.map((bts, index) => (
+            <Marker
+              key={index}
+              position={[bts.latitude, bts.longitude]}
+              icon={customIcon}
+              eventHandlers={{
+                mouseover: (e) => {
+                  const marker = e.target;
+                  setTimeout(() => marker.openPopup(), 100); // Tambahkan sedikit delay
+                },
+                mouseout: (e) => {
+                  const marker = e.target;
+                  setTimeout(() => marker.closePopup(), 100); // Tambahkan sedikit delay
+                },
+                click: () => handleShow(bts.site_id),
+              }}
+            >
+              <Popup>
+                <p>
+                  <strong>Site ID: </strong>
+                  {bts.site_id}
+                </p>
+                <p>
+                  <strong>Latitude</strong>: {bts.latitude}
+                </p>
+                <p>
+                  <strong>Longitude</strong>: {bts.longitude}
+                </p>
+              </Popup>
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
+      </MapContainer>
+    </div>
   );
 };
 
