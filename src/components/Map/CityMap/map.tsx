@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import style from "./MapCity.module.css";
 import { GeoJsonObject, Feature, Geometry } from "geojson";
 import dataCity from "@/data/citygeo.json";
-import LoadingScreen from "@/components/LoadingScreen"
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface CityData {
   id: number;
@@ -137,8 +137,10 @@ const MapProps = () => {
               maximumFractionDigits: 2,
             }).format(cityInfo.total_payload);
             const popupContent = `
-              <h6 style="margin: 5px 0;"><strong>Kabupaten:</strong> ${feature.properties.KABUPATEN}</h6>
-              <p style="margin: 5px 0;"><strong>Jumlah Site:</strong> ${cityInfo.jumlah_site}</p>
+            <div style="margin: 0 0 1rem 0;">
+              <h5 style="margin: 5px 0; color:#be1e1e"><strong> ${feature.properties.KABUPATEN}</strong></h5>
+              <p style="margin: 5px 0;">Total Site: ${cityInfo.jumlah_site} Site</p>
+              </div>
               <p style="margin: 5px 0;"><strong>Total Revenue:</strong> Rp ${formattedRev}</p>
               <p style="margin: 5px 0;"><strong>Total Traffic:</strong> ${formattedTraffic}</p>
               <p style="margin: 5px 0;"><strong>Total Payload:</strong> ${formattedPayload}</p>
@@ -154,29 +156,10 @@ const MapProps = () => {
   // Komponen Dropdown
   const MetricSelector = () => {
     return (
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          left: "50px",
-          zIndex: 1000,
-          backgroundColor: "white",
-          padding: "15px",
-          borderRadius: "4px",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        }}
-      >
+      <div className={style.metricSelector}>
         <select
           value={selectedMetric}
           onChange={(e) => setSelectedMetric(e.target.value as MetricType)}
-          style={{
-            padding: "4px 8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            fontSize: "14px",
-            backgroundColor: "#030d40",
-            color: "white",
-          }}
         >
           {Object.entries(metricLabels).map(([value, label]) => (
             <option key={value} value={value}>
@@ -191,39 +174,15 @@ const MapProps = () => {
   // Komponen Legend
   const Legend = () => {
     return (
-      <div
-        style={{
-          padding: "8px 12px",
-          backgroundColor: "white",
-          borderRadius: "4px",
-          position: "absolute",
-          bottom: "20px",
-          right: "10px",
-          zIndex: 1000,
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h6 style={{ margin: "0 0 8px 0", fontSize: "14px" }}>
+      <div className={style.legendContainer}>
+        <h6 className={style.legendTitle}>
           Legend - {metricLabels[selectedMetric]}
         </h6>
         {Object.entries(categories).map(([category, color]) => (
-          <div
-            key={category}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "4px",
-              fontSize: "12px",
-            }}
-          >
+          <div key={category} className={style.legendItem}>
             <div
-              style={{
-                width: "16px",
-                height: "16px",
-                backgroundColor: color,
-                marginRight: "8px",
-                border: "1px solid #666",
-              }}
+              className={style.legendColorBox}
+              style={{ backgroundColor: color }}
             ></div>
             <span>{category}</span>
           </div>
@@ -232,10 +191,46 @@ const MapProps = () => {
     );
   };
 
-  if (isLoading) {
-    return <LoadingScreen/>;
-  }
+  
+  // Tambahkan komponen GeneralInfo
+  const GeneralInfo = () => {
+    // Hitung total kabupaten dan site
+    const totalKabupaten = cityData.length;
+    const totalSite = cityData.reduce((sum, city) => sum + city.jumlah_site, 0);
 
+    return (
+      <div className={style.generalInfoContainer}>
+        <h6 className={style.generalInfoTitle}>City Map Information</h6>
+        <div className={style.generalInfoContent}>
+          <div className={style.generalInfoItem}>
+            <span className={style.generalInfoLabel}>Region:</span>
+            <span className={style.generalInfoValue}>
+              JATIM - JATENG - BALI NUSRA
+            </span>
+          </div>
+          <div className={style.generalInfoItem}>
+            <span className={style.generalInfoLabel}>Total Kabupaten:</span>
+            <span className={style.generalInfoValue}>{totalKabupaten}</span>
+          </div>
+          <div className={style.generalInfoItem}>
+            <span className={style.generalInfoLabel}>Total Site:</span>
+            <span className={style.generalInfoValue}>
+              {totalSite.toLocaleString()}
+            </span>
+          </div>
+          <div className={style.generalInfoItem}>
+            <span className={style.generalInfoLabel}>Periode:</span>
+            <span className={style.generalInfoValue}>
+              Oktober - Desember 2024
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
   return (
     <div style={{ position: "relative" }}>
       <MapContainer
@@ -256,6 +251,7 @@ const MapProps = () => {
         />
       </MapContainer>
       <MetricSelector />
+      <GeneralInfo />
       <Legend />
     </div>
   );

@@ -3,14 +3,135 @@
   width: 100%; /* Penuh horizontal */
   position: relative;
 }
+
+/* General Info Styles */
+.generalInfoContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: white;
+  padding: 2%;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 21%;
+  min-width: 250px;
+  max-width: 400px;
+  font-size: clamp(12px, 1vw, 16px);
+}
+
+.generalInfoTitle {
+  margin: 0 0 10px 0;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: bold;
+  border-bottom: 2px solid #030d40;
+  padding-bottom: 5px;
+}
+
+.generalInfoContent {
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+.generalInfoItem {
+  margin: 5px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.generalInfoLabel {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.generalInfoValue {
+  text-align: left;
+}
+
+/* Metric Selector Styles */
+.metricSelector {
+  position:absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background-color: white;
+  padding: clamp(8px, 1.5%, 15px);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: clamp(150px, 6%, 200px);
+  margin-left: 3rem;
+}
+
+.metricSelector select {
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: clamp(12px, 0.9vw, 14px);
+  background-color: #030d40;
+  color: white;
+}
+
+/* Legend Styles */
+.legendContainer {
+  padding: clamp(8px, 1.5%, 12px);
+  background-color: white;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: clamp(150px, 15%, 250px);
+}
+
+.legendTitle {
+  margin: 0 0 8px 0;
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: clamp(10px, 0.8vw, 12px);
+}
+
+.legendColorBox {
+  width: clamp(12px, 1vw, 16px);
+  height: clamp(12px, 1vw, 16px);
+  margin-right: 8px;
+  border: 1px solid #666;
+}
 @media (max-width: 768px) {
   .leafletContainer {
     height: calc(100vh - 86px); /* Pastikan konsisten di layar kecil */
+  }
+  .legendContainer {
+    width: clamp(150px, 15%, 250px);
+  }
+  .generalInfoContainer {
+    width: 25%;
+    min-width: 250px;
+    max-width: 400px;
+  }
+  .metricSelector {
+    width: clamp(150px, 6%, 200px);
   }
 }
 
 @media (max-width: 576px) {
   .leafletContainer {
     height: calc(100vh - 86px); /* Tidak mengubah logika, tetap responsif */
+  }
+  .legendContainer {
+    width: clamp(150px, 15%, 250px);
+  }
+  .generalInfoContainer {
+    width: 25%;
+    min-width: 250px;
+    max-width: 400px;
+  }
+  .metricSelector {
+    width: clamp(150px, 6%, 200px);
   }
 }
