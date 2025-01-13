@@ -3,6 +3,7 @@ import style from "./SiteMap.module.css";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import LineChartProps from "@/components/Chart/LineChart";
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface SiteMapProps {
   show: boolean;
@@ -38,7 +39,7 @@ const SiteMapInfo: React.FC<SiteMapProps> = ({
         <Container fluid>
           <Row className={style.customRow}> Chart Report</Row>
           {loading ? (
-            <p>Loading...</p>
+            <LoadingScreen />
           ) : chartData.length > 0 ? (
             <LineChartProps chartData={chartData} loading={loading} />
           ) : (

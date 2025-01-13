@@ -6,6 +6,7 @@ import { Icon, divIcon, point } from "leaflet";
 import style from "./Map.module.css";
 import markerBronze from "@/../public/assets/marker/marker-bronze.png";
 import { useEffect, useState } from "react";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const customIcon = new Icon({
   iconUrl: markerBronze.src,
@@ -36,19 +37,27 @@ interface SiteMapInfo{
 
 const MapPage: React.FC<SiteMapInfo> = ({handleShow}) => {
   const [btsData, setBtsData] = useState<BTSData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const res = await fetch("/api/site");
         const data: BTSData[] = await res.json();
         setBtsData(data);
       } catch (err) {
         console.error("Failed to fetch BTS data:", err);
+      } finally{
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
   return (
     <MapContainer
       center={[-7.863382, 114.757731]} // Ganti dengan koordinat pusat area Anda
@@ -83,14 +92,6 @@ const MapPage: React.FC<SiteMapInfo> = ({handleShow}) => {
           >
             <Popup>
               <p><strong>Site ID: </strong>{bts.site_id}</p>
-              {/* <h6>
-                <strong>
-                  Site ID:{" "}
-                  {bts.site_id.length > 10
-                    ? `${bts.site_id.slice(0, 10)}...`
-                    : bts.site_id}
-                </strong>
-              </h6> */}
               <p>
                 <strong>Latitude</strong>: {bts.latitude}
               </p>
