@@ -23,6 +23,9 @@ const SiteMapInfo: React.FC<SiteMapProps> = ({
   handleClose,
   loading,
 }) => {
+  if(loading){
+    return <LoadingScreen/>
+  }
   return (
     <Offcanvas
       show={show}
