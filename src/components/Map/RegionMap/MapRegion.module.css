@@ -107,15 +107,22 @@
     height: calc(100vh - 86px); /* Pastikan konsisten di layar kecil */
   }
   .legendContainer {
-    width: clamp(150px, 15%, 250px);
+    width: clamp(100px, 40%, 200px);
+    bottom: 10px;
+    left: 5px;
+    font-size: clamp(9px, 0.8vw, 12px);
   }
   .generalInfoContainer {
-    width: 25%;
-    min-width: 250px;
-    max-width: 400px;
+    width: clamp(150px, 40%, 250px);
+    font-size: clamp(11px, 1vw, 14px);
+    top: 5px;
+    right: 5px;
   }
   .metricSelector {
-    width: clamp(150px, 6%, 200px);
+    width: clamp(100px, 25%, 150px);
+    font-size: clamp(10px, 0.8vw, 12px);
+    left: 5px;
+    top: 5px;
   }
 }
 
@@ -124,14 +131,24 @@
     height: calc(100vh - 86px); /* Tidak mengubah logika, tetap responsif */
   }
   .legendContainer {
-    width: clamp(150px, 15%, 250px);
+    width: clamp(80px, 50%, 150px);
+    padding: 5%;
+    font-size: clamp(8px, 0.7vw, 11px);
+    bottom: 5px;
+    left: 5px;
   }
   .generalInfoContainer {
-    width: 25%;
-    min-width: 250px;
-    max-width: 400px;
+    width: clamp(120px, 50%, 200px);
+    font-size: clamp(10px, 0.9vw, 12px);
+    padding: 5%;
+    top: 5px;
+    right: 5px;
   }
   .metricSelector {
-    width: clamp(150px, 6%, 200px);
+    width: clamp(90px, 30%, 130px);
+    font-size: clamp(10px, 0.7vw, 11px);
+    padding: 4px;
+    top: 5px;
+    left: 5px;
   }
 }

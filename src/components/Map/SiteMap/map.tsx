@@ -7,6 +7,7 @@ import style from "./Map.module.css";
 import markerBronze from "@/../public/assets/marker/marker-bronze.png";
 import { useEffect, useState } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useSearch } from "@/hooks/useSearch";
 
 const customIcon = new Icon({
   iconUrl: markerBronze.src,
@@ -38,6 +39,10 @@ interface SiteMapInfo {
 const MapPage: React.FC<SiteMapInfo> = ({ handleShow }) => {
   const [btsData, setBtsData] = useState<BTSData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { filteredData, searchQuery } = useSearch(btsData, {
+    fields: ["site_id"],
+    exact: false,
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -87,6 +92,8 @@ const MapPage: React.FC<SiteMapInfo> = ({ handleShow }) => {
   if (isLoading) {
     return <LoadingScreen />;
   }
+  // Gunakan filteredData untuk marker jika ada pencarian, jika tidak gunakan btsData
+  const displayData = searchQuery ? filteredData : btsData;
   return (
     <div style={{ position: "relative" }}>
       <GeneralInfo />
@@ -104,7 +111,7 @@ const MapPage: React.FC<SiteMapInfo> = ({ handleShow }) => {
           chunkedLoading
           iconCreateFunction={createClusterCustomIcon}
         >
-          {btsData.map((bts, index) => (
+          {displayData.map((bts, index) => (
             <Marker
               key={index}
               position={[bts.latitude, bts.longitude]}

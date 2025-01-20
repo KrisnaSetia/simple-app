@@ -6,6 +6,7 @@ import style from "./MapCity.module.css";
 import { GeoJsonObject, Feature, Geometry } from "geojson";
 import dataCity from "@/data/citygeo.json";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useSearch } from "@/hooks/useSearch";
 
 interface CityData {
   id: number;
@@ -24,6 +25,11 @@ const MapProps = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMetric, setSelectedMetric] =
     useState<MetricType>("total_payload");
+  // Contoh di CityMap
+  const { filteredData, searchQuery } = useSearch(cityData, {
+    fields: ["kabupaten"], // Hanya cari berdasarkan nama kota dan provinsi
+    exact: false, // Gunakan partial matching
+  });
 
   // Definisi kategori dan warna dengan urutan baru
   const categories = {
@@ -96,6 +102,24 @@ const MapProps = () => {
         feature.properties.KABUPATEN.toUpperCase()
     );
 
+    // Jika ada pencarian aktif, cek apakah kota ada dalam filteredData
+    if (searchQuery) {
+      const isFiltered = filteredData.some(
+        (city) =>
+          city.kabupaten.toUpperCase() ===
+          feature.properties.KABUPATEN.toUpperCase()
+      );
+      // Jika tidak ada dalam filteredData, buat transparan
+      if (!isFiltered && cityInfo && cityInfo.category) {
+        return {
+          color: "#666",
+          weight: 1,
+          fillColor: "#cccccc",
+          fillOpacity: 0.1,
+        };
+      }
+    }
+    // Tampilkan style normal jika tidak ada pencarian atau kota termasuk dalam hasil pencarian
     if (cityInfo && cityInfo.category) {
       return {
         color: "#666",
@@ -104,7 +128,6 @@ const MapProps = () => {
         fillOpacity: 0.7,
       };
     }
-
     return {
       color: "#cccccc",
       weight: 0,
@@ -191,7 +214,6 @@ const MapProps = () => {
     );
   };
 
-  
   // Tambahkan komponen GeneralInfo
   const GeneralInfo = () => {
     // Hitung total kabupaten dan site

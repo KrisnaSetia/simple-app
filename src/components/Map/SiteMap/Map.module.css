@@ -61,15 +61,15 @@
   text-align: left;
 }
 
-
 @media (max-width: 768px) {
   .leafletContainer {
     height: calc(100vh - 86px); /* Pastikan konsisten di layar kecil */
   }
   .generalInfoContainer {
-    width: 25%;
-    min-width: 250px;
-    max-width: 400px;
+    width: clamp(150px, 40%, 250px);
+    font-size: clamp(11px, 1vw, 14px);
+    top: 5px;
+    right: 5px;
   }
 }
 
@@ -78,8 +78,10 @@
     height: calc(100vh - 86px); /* Tidak mengubah logika, tetap responsif */
   }
   .generalInfoContainer {
-    width: 25%;
-    min-width: 250px;
-    max-width: 400px;
+    width: clamp(120px, 50%, 200px);
+    font-size: clamp(10px, 0.9vw, 12px);
+    padding: 5%;
+    top: 5px;
+    right: 5px;
   }
 }

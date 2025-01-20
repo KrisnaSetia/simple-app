@@ -6,6 +6,7 @@ import style from "./MapRegion.module.css";
 import { GeoJsonObject, Feature, Geometry } from "geojson";
 import dataCity from "@/data/citygeo.json";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useSearch } from "@/hooks/useSearch";
 
 interface RegionData {
   id: number;
@@ -25,6 +26,10 @@ const MapProps = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMetric, setSelectedMetric] =
     useState<MetricType>("total_payload");
+  const { filteredData, searchQuery } = useSearch(regionData, {
+    fields: ["region"], // Hanya cari berdasarkan nama kota dan provinsi
+    exact: false, // Gunakan partial matching
+  });
 
   // Definisi kategori dan warna dengan urutan baru
   const categories = {
@@ -90,7 +95,22 @@ const MapProps = () => {
       (region) =>
         region.region.toUpperCase() === feature.properties.REGION.toUpperCase()
     );
-
+    if (searchQuery) {
+      const isFiltered = filteredData.some(
+        (region) =>
+          region.region.toUpperCase() ===
+          feature.properties.REGION.toUpperCase()
+      );
+      // Jika tidak ada dalam filteredData, buat transparan
+      if (!isFiltered && regionInfo && regionInfo.category) {
+        return {
+          color: "#666",
+          weight: 1,
+          fillColor: "#cccccc",
+          fillOpacity: 0.1,
+        };
+      }
+    }
     if (regionInfo && regionInfo.category) {
       return {
         color: "#666",
@@ -150,8 +170,7 @@ const MapProps = () => {
   // Komponen Dropdown
   const MetricSelector = () => {
     return (
-      <div className={style.metricSelector}
-      >
+      <div className={style.metricSelector}>
         <select
           value={selectedMetric}
           onChange={(e) => setSelectedMetric(e.target.value as MetricType)}
@@ -169,19 +188,15 @@ const MapProps = () => {
   // Komponen Legend
   const Legend = () => {
     return (
-      <div className={style.legendContainer}
-      >
+      <div className={style.legendContainer}>
         <h6 className={style.legendTitle}>
           Legend - {metricLabels[selectedMetric]}
         </h6>
         {Object.entries(categories).map(([category, color]) => (
-          <div
-            key={category}
-            className={style.legendItem}
-          >
+          <div key={category} className={style.legendItem}>
             <div
               className={style.legendColorBox}
-              style={{ backgroundColor: color }}  
+              style={{ backgroundColor: color }}
             ></div>
             <span>{category}</span>
           </div>
