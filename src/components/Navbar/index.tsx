@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -23,6 +23,17 @@ function NavScrollExample() {
   const handleShowLogout = () => setShowLogout(true);
   const handleCloseAccount = () => setShowAccount(false);
   const handleShowAccount = () => setShowAccount(true);
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const currentPath = router.pathname;
+    router.push({
+      pathname: currentPath,
+      query: { ...router.query, search: searchQuery },
+    });
+  };
+
   const handleClickLogout = () => {
     setLoadingLogout(true);
     setTimeout(() => {
@@ -57,7 +68,9 @@ function NavScrollExample() {
               <NavDropdown title="Level Report" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/map/sitemap">Site</NavDropdown.Item>
                 <NavDropdown.Item href="/map/citymap">City</NavDropdown.Item>
-                <NavDropdown.Item href="/map/regionmap">Regional</NavDropdown.Item>
+                <NavDropdown.Item href="/map/regionmap">
+                  Regional
+                </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={handleShowAccount}>
@@ -68,14 +81,16 @@ function NavScrollExample() {
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
-            <Form className="d-flex">
+            <Form className="d-flex" onSubmit={handleSearch}>
               <Form.Control
                 type="search"
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button variant="outline-danger">Search</Button>
+              <Button variant="outline-danger" type="submit">Search</Button>
             </Form>
           </Navbar.Collapse>
         </Container>
