@@ -1,8 +1,13 @@
-## My Simple Dashboard App Project
+# Network Analysis Dashboard Telkomsel Jawa Bali
+Ini merupakan project dashboard network analysis perusahaan Telkomsel area Jawa Bali yang berguna sebagai report network untuk Area Jawa Bali menggunakan Next js x React Bootstrap, Leaflet, GeoJSON. 
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+Tujuan dari project ini adalah untuk memberikan kemudahan bagi Top Management terkait laporan dan analisis performa jaringan Telkomsel.
 
+Data yang digunakan dalam project ini tidak menggunakan data asli dan sudah dilakukan hashing untuk menghindari kebocoran data
 ## Getting Started
+### Database Configuration
+
+Database pada project ini menggunakan database local dengan MySQL. Maka dari itu perlu m
 
 First, run the development server:
 
