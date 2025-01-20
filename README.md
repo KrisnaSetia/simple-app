@@ -8,20 +8,15 @@ Data yang digunakan dalam project ini tidak menggunakan data asli dan sudah dila
 ### 1. Download and Install Main Resources
 1. Install Node js : https://nodejs.org/id/download/current
 2. Install XAMPP (Optional) : https://www.apachefriends.org/download.html
-3. Download Dataset : 
-
-### 2. Create Next JS App
-First, run the development server:
-
+3. Download Dataset : https://intip.in/DataDashboardNetworkAnalysis
+### 2. Setup Database
+Instruksi lengkap ada di link berikut https://intip.in/DataDashboardNetworkAnalysis
+### 3. Clone this repository
+Jalankan code ini untuk melakukan git clone repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/KrisnaSetia/simple-app.git
 ```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
