@@ -10,9 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",
     "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "mysql": "^2.18.1",
     "mysql2": "^3.12.0",
@@ -28,7 +30,9 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/bcryptjs": "^2.4.6",
     "@types/geojson": "^7946.0.15",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/leaflet": "^1.9.15",
     "@types/mysql": "github:types/mysql",
     "@types/node": "^20",
