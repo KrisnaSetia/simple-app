@@ -8,7 +8,7 @@ import markerBronze from "@/../public/assets/marker/marker-bronze.png";
 import { useEffect, useState } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useSearch } from "@/hooks/useSearch";
-
+import Accordion from "react-bootstrap/Accordion";
 const customIcon = new Icon({
   iconUrl: markerBronze.src,
   iconSize: [30, 45], // Ukuran ikon
@@ -64,28 +64,35 @@ const MapPage: React.FC<SiteMapInfo> = ({ handleShow }) => {
     const totalSite = new Intl.NumberFormat("id-ID", {
       maximumFractionDigits: 2,
     }).format(btsData.length);
+
     return (
-      <div className={style.generalInfoContainer}>
-        <h6 className={style.generalInfoTitle}>Site Map Information</h6>
-        <div className={style.generalInfoContent}>
-          <div className={style.generalInfoItem}>
-            <span className={style.generalInfoLabel}>Region: </span>
-            <span className={style.generalInfoValue}>
-              JATIM - JATENG - BALI NUSRA
-            </span>
-          </div>
-          <div className={style.generalInfoItem}>
-            <span className={style.generalInfoLabel}>Total Site: </span>
-            <span className={style.generalInfoValue}>{totalSite} site</span>
-          </div>
-          <div className={style.generalInfoItem}>
-            <span className={style.generalInfoLabel}>Periode:</span>
-            <span className={style.generalInfoValue}>
-              Oktober - Desember 2024
-            </span>
-          </div>
-        </div>
-      </div>
+      <Accordion defaultActiveKey="0" className={style.generalInfoContainer}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h6 className={style.generalInfoTitle}>Site Map Information</h6>
+          </Accordion.Header>
+          <Accordion.Body>
+            <div className={style.generalInfoContent}>
+              <div className={style.generalInfoItem}>
+                <span className={style.generalInfoLabel}>Region: </span>
+                <span className={style.generalInfoValue}>
+                  JATIM - JATENG - BALI NUSRA
+                </span>
+              </div>
+              <div className={style.generalInfoItem}>
+                <span className={style.generalInfoLabel}>Total Site: </span>
+                <span className={style.generalInfoValue}>{totalSite} site</span>
+              </div>
+              <div className={style.generalInfoItem}>
+                <span className={style.generalInfoLabel}>Periode:</span>
+                <span className={style.generalInfoValue}>
+                  Oktober - Desember 2024
+                </span>
+              </div>
+            </div>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     );
   };
 

@@ -7,6 +7,7 @@ import { GeoJsonObject, Feature, Geometry } from "geojson";
 import dataCity from "@/data/citygeo.json";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useSearch } from "@/hooks/useSearch";
+import Accordion from "react-bootstrap/Accordion";
 
 interface CityData {
   id: number;
@@ -219,37 +220,43 @@ const MapProps = () => {
     // Hitung total kabupaten dan site
     const totalKabupaten = cityData.length;
     const totalSite = cityData.reduce((sum, city) => sum + city.jumlah_site, 0);
-
     return (
-      <div className={style.generalInfoContainer}>
-        <h6 className={style.generalInfoTitle}>City Map Information</h6>
-        <div className={style.generalInfoContent}>
-          <div className={style.generalInfoItem}>
-            <span className={style.generalInfoLabel}>Region:</span>
-            <span className={style.generalInfoValue}>
-              JATIM - JATENG - BALI NUSRA
-            </span>
-          </div>
-          <div className={style.generalInfoItem}>
-            <span className={style.generalInfoLabel}>Total Kabupaten:</span>
-            <span className={style.generalInfoValue}>{totalKabupaten}</span>
-          </div>
-          <div className={style.generalInfoItem}>
-            <span className={style.generalInfoLabel}>Total Site:</span>
-            <span className={style.generalInfoValue}>
-              {totalSite.toLocaleString()}
-            </span>
-          </div>
-          <div className={style.generalInfoItem}>
-            <span className={style.generalInfoLabel}>Periode:</span>
-            <span className={style.generalInfoValue}>
-              Oktober - Desember 2024
-            </span>
-          </div>
-        </div>
-      </div>
+      <Accordion defaultActiveKey="0" className={style.generalInfoContainer}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h6 className={style.generalInfoTitle}>City Map Information</h6>
+          </Accordion.Header>
+          <Accordion.Body>
+            <div className={style.generalInfoContent}>
+              <div className={style.generalInfoItem}>
+                <span className={style.generalInfoLabel}>Region:</span>
+                <span className={style.generalInfoValue}>
+                  JATIM - JATENG - BALI NUSRA
+                </span>
+              </div>
+              <div className={style.generalInfoItem}>
+                <span className={style.generalInfoLabel}>Total Kabupaten:</span>
+                <span className={style.generalInfoValue}>{totalKabupaten}</span>
+              </div>
+              <div className={style.generalInfoItem}>
+                <span className={style.generalInfoLabel}>Total Site:</span>
+                <span className={style.generalInfoValue}>
+                  {totalSite.toLocaleString()}
+                </span>
+              </div>
+              <div className={style.generalInfoItem}>
+                <span className={style.generalInfoLabel}>Periode:</span>
+                <span className={style.generalInfoValue}>
+                  Oktober - Desember 2024
+                </span>
+              </div>
+            </div>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     );
   };
+
   if (isLoading) {
     return <LoadingScreen />;
   }

@@ -7,6 +7,7 @@ import { GeoJsonObject, Feature, Geometry } from "geojson";
 import dataCity from "@/data/citygeo.json";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useSearch } from "@/hooks/useSearch";
+import Accordion  from "react-bootstrap/Accordion";
 
 interface RegionData {
   id: number;
@@ -217,9 +218,13 @@ const MapProps = () => {
     );
 
     return (
-      <div className={style.generalInfoContainer}>
-        <h6 className={style.generalInfoTitle}>Regional Map Information</h6>
-        <div className={style.generalInfoContent}>
+      <Accordion defaultActiveKey="0" className={style.generalInfoContainer}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+          <h6 className={style.generalInfoTitle}>Regional Map Information</h6>
+          </Accordion.Header>
+          <Accordion.Body>
+          <div className={style.generalInfoContent}>
           <div className={style.generalInfoItem}>
             <span className={style.generalInfoLabel}>Region:</span>
             <span className={style.generalInfoValue}>
@@ -243,7 +248,9 @@ const MapProps = () => {
             </span>
           </div>
         </div>
-      </div>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     );
   };
 
