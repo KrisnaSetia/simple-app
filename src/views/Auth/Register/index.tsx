@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "react-bootstrap/Button";
@@ -26,13 +27,15 @@ const RegisterPage = () => {
   const validateForm = () => {
     const usernameRegex = /^[a-zA-Z0-9]{5,12}$/;
     const emailRegex = /^[^\s@]+@telkomsel\.co\.id$/;
-    if(!username || !email || !password || !confirmPassword) {
+    if (!username || !email || !password || !confirmPassword) {
       setErrorMessage("Harap lengkapi data akun anda!");
       return false;
     }
     // Username validation
     if (!usernameRegex.test(username)) {
-      setErrorMessage("Username hanya boleh berisi huruf dan angka, 5-12 karakter.");
+      setErrorMessage(
+        "Username hanya boleh berisi huruf dan angka, 5-12 karakter."
+      );
       return false;
     }
     // Email validation
@@ -54,16 +57,40 @@ const RegisterPage = () => {
     return true;
   };
 
-  const handleClickRegister = () => {
+  const handleClickRegister = async () => {
     if (!validateForm()) {
       return;
     }
 
-    setLoading(true);
-    setTimeout(() => {
+    try {
+      setLoading(true);
+      setErrorMessage("");
+
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registrasi gagal");
+      }
+
+      // Jika registrasi berhasil, redirect ke halaman login
+      push("/auth/login");
+    } catch (error: any) {
+      setErrorMessage(error.message || "Terjadi kesalahan saat registrasi");
+    } finally {
       setLoading(false);
-      push("/home");
-    }, 500);
+    }
   };
 
   return (
@@ -91,9 +118,16 @@ const RegisterPage = () => {
               <Card.Text className="text-muted" style={{ fontSize: "14px" }}>
                 Create account for access to all features from this website
               </Card.Text>
-              <Form>
+              <Form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleClickRegister();
+                }}
+              >
                 <Form.Group className="mb-3" controlId="formUsername">
-                  <Form.Label style={{ fontWeight: "bold" }}>Username</Form.Label>
+                  <Form.Label style={{ fontWeight: "bold" }}>
+                    Username
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter username"
@@ -102,7 +136,9 @@ const RegisterPage = () => {
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formEmail">
-                  <Form.Label style={{ fontWeight: "bold" }}>Email address</Form.Label>
+                  <Form.Label style={{ fontWeight: "bold" }}>
+                    Email address
+                  </Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
@@ -110,11 +146,14 @@ const RegisterPage = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <Form.Text className="text-muted">
-                    Please login with Telkomsel email employee (...@telkomsel.co.id)
+                    Please login with Telkomsel email employee
+                    (...@telkomsel.co.id)
                   </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formPassword">
-                  <Form.Label style={{ fontWeight: "bold" }}>Password</Form.Label>
+                  <Form.Label style={{ fontWeight: "bold" }}>
+                    Password
+                  </Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Password"
@@ -123,7 +162,9 @@ const RegisterPage = () => {
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formConfirmPassword">
-                  <Form.Label style={{ fontWeight: "bold" }}>Confirm Password</Form.Label>
+                  <Form.Label style={{ fontWeight: "bold" }}>
+                    Confirm Password
+                  </Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Confirm Password"
@@ -136,31 +177,31 @@ const RegisterPage = () => {
                     {errorMessage}
                   </p>
                 )}
+                <div className="d-grid gap-2">
+                  <Button
+                    className="mt-2"
+                    variant="danger"
+                    size="lg"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                        {" Loading..."}
+                      </>
+                    ) : (
+                      "Register"
+                    )}
+                  </Button>
+                </div>
               </Form>
-              <div className="d-grid gap-2">
-                <Button
-                  className="mt-2"
-                  variant="danger"
-                  size="lg"
-                  onClick={handleClickRegister}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                      />
-                      {" Loading..."}
-                    </>
-                  ) : (
-                    "Register"
-                  )}
-                </Button>
-              </div>
             </Card.Body>
           </Row>
         </Card>

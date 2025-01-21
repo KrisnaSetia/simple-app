@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "react-bootstrap/Button";
@@ -29,18 +30,6 @@ const LoginPage = () => {
     }, 700);
   };
 
-  const handleClickLogin = () => {
-    if (!validateForm()) {
-      return;
-    }
-
-    setLoadingLogin(true);
-    setTimeout(() => {
-      setLoadingLogin(false);
-      push("/home");
-    }, 1000);
-  };
-
   const validateForm = () => {
     // Email validation
     const telkomselEmailRegex = /^[^\s@]+@telkomsel\.co\.id$/;
@@ -61,6 +50,47 @@ const LoginPage = () => {
 
     setErrorMessage(""); // Reset error message if validation passes
     return true;
+  };
+
+  const handleClickLogin = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      setLoadingLogin(true);
+      setErrorMessage("");
+
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login gagal');
+      }
+
+      // Simpan token ke localStorage
+      localStorage.setItem('token', data.token);
+      
+      // Simpan data user jika diperlukan
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      // Redirect ke halaman home
+      push("/home");
+    } catch (error: any) {
+      setErrorMessage(error.message || 'Terjadi kesalahan saat login');
+    } finally {
+      setLoadingLogin(false);
+    }
   };
 
   return (
@@ -88,7 +118,10 @@ const LoginPage = () => {
               <Card.Text className="text-muted" style={{ fontSize: "14px" }}>
                 Log in to get access data and dashboard Telkomsel Indonesia!
               </Card.Text>
-              <Form>
+              <Form onSubmit={(e) => {
+                e.preventDefault();
+                handleClickLogin();
+              }}>
                 <Form.Group className="mb-3" controlId="formEmail">
                   <Form.Label style={{ fontWeight: "bold" }}>Email address</Form.Label>
                   <Form.Control
@@ -115,31 +148,30 @@ const LoginPage = () => {
                     {errorMessage}
                   </p>
                 )}
+                <div className="d-grid gap-2">
+                  <Button
+                    variant="danger"
+                    size="lg"
+                    type="submit"
+                    disabled={loadingLogin}
+                  >
+                    {loadingLogin ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                        {" Loading..."}
+                      </>
+                    ) : (
+                      "Login"
+                    )}
+                  </Button>
+                </div>
               </Form>
-          
-              <div className="d-grid gap-2">
-                <Button
-                  variant="danger"
-                  size="lg"
-                  onClick={handleClickLogin}
-                  disabled={loadingLogin}
-                >
-                  {loadingLogin ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                      />
-                      {" Loading..."}
-                    </>
-                  ) : (
-                    "Login"
-                  )}
-                </Button>
-              </div>
               <div className="d-flex justify-content-center align-items-center mt-2 mb-2">
                 <Card.Text style={{ fontSize: "14px" }}>
                   Don&apos;t have an account?
@@ -177,5 +209,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-

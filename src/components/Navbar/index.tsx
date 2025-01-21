@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -19,12 +19,39 @@ function NavScrollExample() {
   const [loadingAccount, setLoadingAccount] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
+  const [userData, setUserData] = useState<{
+    username?: string;
+    email?: string;
+  } | null>(null);
+
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Fetch user data saat komponen dimount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("/api/auth/user", {
+          credentials: "include", // Penting untuk mengirim cookie
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data.user);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   const handleCloseLogut = () => setShowLogout(false);
   const handleShowLogout = () => setShowLogout(true);
   const handleCloseAccount = () => setShowAccount(false);
   const handleShowAccount = () => setShowAccount(true);
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
+
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     const currentPath = router.pathname;
@@ -34,20 +61,50 @@ function NavScrollExample() {
     });
   };
 
-  const handleClickLogout = () => {
-    setLoadingLogout(true);
-    setTimeout(() => {
-      setLoadingLogout(false);
+  const handleClickLogout = async () => {
+    try {
+      setLoadingLogout(true);
+
+      // Panggil API logout
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include", // Penting untuk mengirim cookie
+      });
+
+      if (!response.ok) {
+        throw new Error("Logout failed");
+      }
+
+      // Redirect ke halaman login
       push("/");
-    }, 1000);
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setLoadingLogout(false);
+      setShowLogout(false);
+    }
   };
-  const handleClickAccount = () => {
-    setLoadingAccount(true);
-    setTimeout(() => {
-      setLoadingAccount(false);
+
+  const handleClickAccount = async () => {
+    try {
+      setLoadingAccount(true);
+
+      // Panggil API logout untuk menghapus session saat ini
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      // Redirect ke halaman login
       push("/auth/login");
-    }, 1000);
+    } catch (error) {
+      console.error("Change account error:", error);
+    } finally {
+      setLoadingAccount(false);
+      setShowAccount(false);
+    }
   };
+
   return (
     <>
       <Navbar expand="lg" className={style.navbar}>
@@ -73,6 +130,21 @@ function NavScrollExample() {
                 </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
+              <NavDropdown.Item
+                  className="text-muted"
+                  style={{ cursor: "default" }}
+                  onClick={(e) => e.preventDefault()}
+                >
+                  User: {userData?.username || "Loading..."}
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  className="text-muted"
+                  style={{ cursor: "default" }}
+                  onClick={(e) => e.preventDefault()}
+                >
+                  Email: {userData?.email || "Loading..."}
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleShowAccount}>
                   Change Account
                 </NavDropdown.Item>
@@ -90,16 +162,19 @@ function NavScrollExample() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button variant="outline-danger" type="submit">Search</Button>
+              <Button variant="outline-danger" type="submit">
+                Search
+              </Button>
             </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
       <Modal show={showAccount} onHide={handleCloseAccount}>
         <Modal.Header closeButton>
           <Modal.Title>Change Account Confirmation</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to change your account ?</Modal.Body>
+        <Modal.Body>Are you sure you want to change your account?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseAccount}>
             Close
@@ -126,6 +201,7 @@ function NavScrollExample() {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <Modal show={showLogout} onHide={handleCloseLogut}>
         <Modal.Header closeButton>
           <Modal.Title>Log out Confirmation</Modal.Title>
