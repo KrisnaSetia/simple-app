@@ -67,4 +67,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser in desktop
 
 ## Other Optimization for This Project
 In this project there are some features that are not optimal and you can optimize, here are some things that can be optimized: 
-1. Authentication System (Login, Register, Logout, Change Account)
+1. Integration using remote server (cloud server)
