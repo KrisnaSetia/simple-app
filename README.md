@@ -1,4 +1,4 @@
-# Telkomsel Network Analysis Dashboard Jawa Bali Area
+# Telkomsel Network Analysis Dashboard Jawa Bali Area Tester
 This is a network analysis dashboard project for Telkomsel's Jawa Bali area which is useful as a network report for the Jawa Bali area using Next js,Bootstrap, React Bootstrap, Leaflet, GeoJSON,ChartJS, React Chartjs and MySQL. 
 
 The purpose of this project is to provide convenience for Top Management regarding reports and analysis of Telkomsel network performance.
