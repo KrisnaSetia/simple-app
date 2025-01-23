@@ -1,5 +1,5 @@
-# Network Analysis Dashboard Telkomsel Jawa Bali
-This is a network analysis dashboard project for Telkomsel's Java Bali area which is useful as a network report for the Java Bali area using Next js,Bootstrap, React Bootstrap, Leaflet, GeoJSON,ChartJS, React Chartjs and MySQL. 
+# Telkomsel Network Analysis Dashboard Jawa Bali Area
+This is a network analysis dashboard project for Telkomsel's Jawa Bali area which is useful as a network report for the Jawa Bali area using Next js,Bootstrap, React Bootstrap, Leaflet, GeoJSON,ChartJS, React Chartjs and MySQL. 
 
 The purpose of this project is to provide convenience for Top Management regarding reports and analysis of Telkomsel network performance.
 
@@ -11,12 +11,10 @@ The data used in this project does not use original data and has been hashed to 
 3. Download Dataset : https://intip.in/DataDashboardNetworkAnalysis
 ### 2. Setup Database
 Full instructions are at the following link https://intip.in/DataDashboardNetworkAnalysis
-### 3. Clone this repository
-Run this code to git clone the repository
-```bash
-git clone https://github.com/KrisnaSetia/simple-app.git
-```
-After that, install the dependencies
+### 3. Fork this repository
+To modify this project, you are allowed to forking this repository
+
+After that, install the dependencies with this command
 ```bash
 npm install
 ```
