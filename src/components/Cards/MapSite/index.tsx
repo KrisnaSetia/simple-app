@@ -26,10 +26,10 @@ const cardMap = () => {
         </div>
         <Card.Body>
           <Card.Title style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
-            Site Level
+            Site Map
           </Card.Title>
           <Card.Text>
-            This report will visualize and summarize data BTS Telkomsel tower based on Site level in Jawa & Bali Island.
+            This report will visualize and summarize data Telkomsel BTS tower data based on Site level in Jawa, Bali, and Nusa Tenggara Area.
           </Card.Text>
           <Button variant="danger" onClick={handleMapClick} disabled={loading}>
           {loading ? (
@@ -44,7 +44,7 @@ const cardMap = () => {
                     {" Loading..."}
                   </>
                 ) : (
-                  "Access BTS Map"
+                  "Access Site Map"
                 )}
           </Button>
         </Card.Body>

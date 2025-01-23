@@ -123,10 +123,10 @@ function NavScrollExample() {
                 <Nav.Link href="/home">Main Dashboard</Nav.Link>
               </strong>
               <NavDropdown title="Level Report" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/map/sitemap">Site</NavDropdown.Item>
-                <NavDropdown.Item href="/map/citymap">City</NavDropdown.Item>
+                <NavDropdown.Item href="/map/sitemap">Site Map</NavDropdown.Item>
+                <NavDropdown.Item href="/map/citymap">City Map</NavDropdown.Item>
                 <NavDropdown.Item href="/map/regionmap">
-                  Regional
+                  Region Map
                 </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
