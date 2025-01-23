@@ -218,7 +218,7 @@ const MapProps = () => {
     );
 
     return (
-      <Accordion defaultActiveKey="0" className={style.generalInfoContainer}>
+      <Accordion className={style.generalInfoContainer}>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
           <h6 className={style.generalInfoTitle}>Regional Map Information</h6>

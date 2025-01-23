@@ -66,7 +66,7 @@ const MapPage: React.FC<SiteMapInfo> = ({ handleShow }) => {
     }).format(btsData.length);
 
     return (
-      <Accordion defaultActiveKey="0" className={style.generalInfoContainer}>
+      <Accordion className={style.generalInfoContainer}>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <h6 className={style.generalInfoTitle}>Site Map Information</h6>

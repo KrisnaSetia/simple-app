@@ -221,7 +221,7 @@ const MapProps = () => {
     const totalKabupaten = cityData.length;
     const totalSite = cityData.reduce((sum, city) => sum + city.jumlah_site, 0);
     return (
-      <Accordion defaultActiveKey="0" className={style.generalInfoContainer}>
+      <Accordion className={style.generalInfoContainer}>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <h6 className={style.generalInfoTitle}>City Map Information</h6>
