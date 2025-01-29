@@ -4,6 +4,10 @@ This is a network analysis dashboard project for Telkomsel's Jawa Bali area whic
 The purpose of this project is to provide convenience for Top Management regarding reports and analysis of Telkomsel network performance.
 
 The data used in this project does not use original data and has been hashed to avoid data leakage.
+## Software Requirements Specification
+Before modifying/resuming this project, it is strongly recommended to read the software requirements specification provided. This document contains the specifications for the development of this project in complete detail
+- [SRS - Englsih Version](https://drive.google.com/file/d/1ZPVozi1PUQLPJgG5vQB8nNwO_aVlLOu2/view?usp=sharing) - SRS english version
+- [SRS - Indonesia Version](https://drive.google.com/file/d/1tYNWKSNC6ANHd-LPvXesj64VNNyNBuY4/view?usp=drive_link) - SRS indonesia version
 ## Getting Started
 ### 1. Download and Install Main Resources
 1. Install Node js : https://nodejs.org/id/download/current
